@@ -1,7 +1,7 @@
-import { respond } from '@/app/lib/http'
+import { withSim } from '@/app/lib/simAuth'
 
 export const dynamic = 'force-dynamic'
 
-export function GET() {
-  return respond(({ svc }) => svc.listCourses())
+export function GET(req: Request) {
+  return withSim(req, 'courses.read', ({ svc }) => svc.listCourses())
 }

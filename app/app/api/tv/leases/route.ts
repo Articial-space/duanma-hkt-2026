@@ -1,15 +1,16 @@
-import { readJson, respond, str } from '@/app/lib/http'
-import { REQUESTER_ID } from '../../../../../core/src/fixtures.js'
+import { readJson, str } from '@/app/lib/http'
+import { withSim } from '@/app/lib/simAuth'
 
 export const dynamic = 'force-dynamic'
 
-export function GET() {
-  return respond(({ svc }) => svc.listLeases())
+export function GET(req: Request) {
+  return withSim(req, 'leases.read', ({ svc }) => svc.listLeases())
 }
 
 export function POST(req: Request) {
-  return respond(async ({ svc }) => {
+  return withSim(req, 'lease.request', async ({ svc }, caller) => {
     const body = await readJson(req)
-    return svc.requestSummary({ courseCode: str(body, 'courseCode'), requestedBy: REQUESTER_ID })
+    // Identity comes from the verified token, never from the body.
+    return svc.requestSummary({ courseCode: str(body, 'courseCode'), requestedBy: caller.username })
   })
 }

@@ -1,10 +1,12 @@
-import { readJson, respond, str } from '@/app/lib/http'
+import { readJson, str } from '@/app/lib/http'
+import { withSim } from '@/app/lib/simAuth'
 
 export const dynamic = 'force-dynamic'
 
 export function POST(req: Request) {
-  return respond(async ({ svc }) => {
+  return withSim(req, 'lease.approve', async ({ svc }, caller) => {
     const body = await readJson(req)
-    return svc.approve({ leaseId: str(body, 'leaseId'), approverId: str(body, 'approverId') })
+    // approverId comes from the verified token; any body approverId is ignored.
+    return svc.approve({ leaseId: str(body, 'leaseId'), approverId: caller.username })
   })
 }

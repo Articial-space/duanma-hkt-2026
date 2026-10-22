@@ -1,0 +1,42 @@
+PASS  anon GET /api/tv/rows -> 401  got 401
+PASS  anon GET /api/tv/courses -> 401  got 401
+PASS  anon GET /api/tv/leases -> 401  got 401
+PASS  anon GET /api/tv/audit -> 401  got 401
+PASS  anon GET /api/tv/probe -> 401  got 401
+PASS  anon POST /api/tv/audit/tamper-demo -> 401  got 401
+PASS  anon POST /api/tv/clock/advance -> 401  got 401
+PASS  anon POST /api/tv/feedback -> 401  got 401
+PASS  anon POST /api/tv/leases -> 401  got 401
+PASS  anon POST /api/tv/leases/approve -> 401  got 401
+PASS  anon POST /api/tv/leases/reject -> 401  got 401
+PASS  anon POST /api/tv/summarise -> 401  got 401
+PASS  student-demo submit feedback -> 200  got 200 {"rowId":"row-16","recordId":"fb-demo1001","courseCode":"DEMO1001","ciphertext":"tide-mock:v1:EO-nM2S95-IELYSST49FUcWEEt
+PASS  lecturer-demo submit feedback -> 403  got 403 {"error":"Forbidden: feedback.submit requires realm role student and _tide_encryptor (simulated TideCloak)"}
+PASS  rows show ciphertext, not plaintext  status 200, len 3474
+PASS  lecturer requests lease DEMO1001 -> 200  got 200 {"id":"lease-1","agentId":"ai-summariser-01","recordId":"fb-demo1001","purpose":"AI theme summary for DEMO1001","requestedBy":"lecturer-demo","createdAt":1792663018414,"ttlSeconds":900,"adminCount":3,
+leaseId = lease-1 request body: {"id":"lease-1","agentId":"ai-summariser-01","recordId":"fb-demo1001","purpose":"AI theme summary for DEMO1001","requestedBy":"lecturer-demo","createdAt":1792663018414,"ttlSeconds":900,"adminCount":3,"approvals":[],"status":"PENDING"}
+approve#1: {"id":"lease-1","agentId":"ai-summariser-01","recordId":"fb-demo1001","purpose":"AI theme summary for DEMO1001","requestedBy":"lecturer-demo","createdAt":1792663018414,"ttlSeconds":900,"adminCount":3,"approvals":["student-rep"],"status":"PENDING"}
+PASS  student-rep approve (spoof approverId=qa-officer) -> 200  got 200
+PASS  approval recorded as student-rep (not qa-officer)  
+approve#2: {"id":"lease-1","agentId":"ai-summariser-01","recordId":"fb-demo1001","purpose":"AI theme summary for DEMO1001","requestedBy":"lecturer-demo","createdAt":1792663018414,"ttlSeconds":900,"adminCount":3,"approvals":["student-rep","dean"],"status":"ACTIVE","grantedAt":1792663018457,"expiresAt":1792663918457}
+PASS  dean approve -> 200 and ACTIVE  got 200
+PASS  it-admin summarise -> 403  got 403 {"error":"Forbidden: summarise.run requires realm role ai-operator and _tide_decryptor (simulated TideCloak)"}
+summarise ai: {"ok":true,"summary":"SUMMARY: DEMO1001 — 6 comments; themes: assessment (3), feedback (1), materials (1)","comments":6}
+PASS  ai-summariser-01 summarise -> 200 ok with SUMMARY  got 200
+PASS  clock advance 16 min -> 200  got 200 {"offsetMs":960000,"now":1792663978524}
+summarise after +16: {"ok":false,"reason":"NO_ACTIVE_LEASE"}
+PASS  summarise after +16 min -> BLOCKED (ok:false, NO_ACTIVE_LEASE)  got 200 {"ok":false,"reason":"NO_ACTIVE_LEASE"}
+PASS  token structure editable for tamper test  parts=3
+PASS  edited-payload token -> 401  got 401
+PASS  edited-payload token on approve -> 401  got 401
+PASS  GET /api/tv/tide/state -> 401  got 401
+PASS  POST /api/tv/tide/whoami -> 401  got 401
+PASS  GET /api/tv/tide/rows -> 401  got 401
+PASS  GET /api/tv/tide/policies -> 401  got 401
+PASS  POST /api/tv/tide/summary -> 401  got 401
+PASS  GET /api/tv/tide/leases -> 401  got 401
+PASS  GET /api/tv/tide/admin-policy -> 401  got 401
+PASS  POST /api/tv/tide/leases/approve -> 401  got 401
+PASS  GET /truthvoice -> 200  got 200
+
+TOTAL 35 checks, 0 failed

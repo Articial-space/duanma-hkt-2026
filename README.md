@@ -5,7 +5,7 @@
 **TruthVoice lets students give honest course feedback that no university admin, lecturer or AI can read at will. An AI may summarise one course's feedback only under a short lease that two of three independent approvers grant.**
 
 ### Vision & originality
-Course surveys promise anonymity, yet whoever runs the system can read every comment. TruthVoice keeps raw feedback sealed; an AI reads it only through a quorum-granted, expiring, per-course lease. Lecturers receive themes, never sentences that could identify a student.
+Course surveys promise anonymity, yet whoever runs the system can read every comment. TruthVoice keeps raw feedback sealed; an AI reads it only through a quorum-granted, expiring, per-course lease. Lecturers receive themes, never identifying sentences.
 
 ### Trust constraint insight
 Students self-censor because IT admins, developers and database owners can read and correlate comments. Universities therefore either keep feedback away from AI or quietly expose it. Remove the "trust the operator" step and honest feedback can be analysed safely.
@@ -14,7 +14,7 @@ Students self-censor because IT admins, developers and database owners can read 
 Students can report unfair marking without fear; lecturers get actionable themes after grades are published; quality teams get a tamper-evident audit trail. Example: DEMO1001's summary shows "assessment" as the top concern without revealing who said it.
 
 ### Why TideCloak matters
-In Tide mode, comments are encrypted in the student's browser and keys stay in Tide's decentralised network; our server never decrypts. The app enforces the 2-of-3 approvals. A realm admin then signs the lease as a RelationshipAttestation:1 policy, and the Tide network is designed to enforce its subject (the AI operator's account), course and expiry. Demo mode simulates the network, labelled on screen. Limits: Tide checks the account, not the AI code behind it; the live network checks are not yet recorded.
+In Tide mode, comments are encrypted in the student's browser and keys stay in Tide's decentralised network; our server never decrypts. The app enforces the 2-of-3 approvals. A realm admin then signs the lease as a RelationshipAttestation:1 policy, and the Tide network is designed to enforce its subject (the AI operator's account), course and expiry. Demo mode simulates sign-in, roles and access checks, per the organisers' instruction. Limits: Tide checks the account, not the AI code behind it; live network checks are not yet recorded.
 
 ### Prototype & storytelling
 Watch the "Who can read this feedback right now?" table: IT admin, lecturer and the AI are blocked; one approval keeps them blocked; a second opens one course to the AI only; after expiry everything is blocked again, and a tampered audit entry is caught.
@@ -40,7 +40,7 @@ npm ci
 npm run dev
 ```
 
-Open http://localhost:3000/truthvoice. The badge reads **"Demo mode — Tide network simulated"**. The app stays in demo mode while `app/tidecloak.json` is the placeholder `{}`. All state is in memory and is seeded with 3 courses and 15 synthetic comments. Restart the dev server to reset it.
+Open http://localhost:3000/truthvoice. The badge reads **"Demo mode — Tide network simulated"**. Per the organisers' instruction, sign-in, roles and access checks are simulated too: pick an account in the "Sign in (simulated TideCloak)" panel (Student, Lecturer, Student representative, Dean, QA officer, University IT admin, AI summariser). The server checks the signed token and the role on every request; the page only mirrors that result. The "Where TideCloak fits" panel (and `TIDECLOAK-FIT.md`) maps each simulated piece to the real TideCloak piece. Set `TV_SIM_SECRET` to keep sessions across restarts. The app stays in demo mode while `app/tidecloak.json` is the placeholder `{}`. All state is in memory and is seeded with 3 courses and 15 synthetic comments. Restart the dev server to reset it.
 
 ### 3. Tide mode (live TideCloak)
 
@@ -82,11 +82,14 @@ To go back to demo mode, run `git checkout app/tidecloak.json` (back to `{}`) an
 ```
 core/                  TypeScript engine, runs offline (vitest)
   src/                 threshold, policy, lease, gateway (mock Tide), agent (mock AI),
-                       audit, probe, service, policyStore, fixtures, demo
+                       audit, probe, service, policyStore, simAuth (simulated TideCloak),
+                       fixtures, demo
   tests/               unit tests, one file per module
 app/                   Next.js 16, from the official TideCloak template
   app/truthvoice/      the page: DemoTruthVoice.tsx (demo) or TideTruthVoice.tsx (Tide)
-  app/api/tv/          demo-mode API: in-memory service + mock Tide gateway
+  app/api/tv/          demo-mode API: in-memory service + mock Tide gateway, every route
+                       behind the simulated sign-in (401 signed out, 403 wrong role)
+  app/api/tv/sim/      simulated TideCloak: login, logout, whoami, users
   app/api/tv/tide/     Tide-mode API: checks token + DPoP proof (401 otherwise); stores
                        ciphertext, signed policies and summaries only
   app/lib/             mode detection, Tide auth, Tide-mode server state
@@ -99,7 +102,7 @@ runs/                  recorded runs: tests, mutants, app smoke test, licence di
 
 | What | How | Result |
 |---|---|---|
-| Engine unit tests | `cd core && npm test` | 12 files, 385 tests pass (2026-10-22); `npm run typecheck` clean |
+| Engine unit tests | `cd core && npm test` | 13 files, 424 tests pass (2026-10-22), including `simAuth.test.ts` for the simulated sign-in; `npm run typecheck` clean |
 | Scripted story | `cd core && npm run demo` | steps [1]-[6]: blocked → 1 approval still blocked → 2 approvals: themes only, other course blocked → expired: blocked → tamper caught |
 | Do the tests catch bugs? | `runs/mutants/` | 3 planted bugs (threshold rounding, skipped lease-signature check, self-approval) each make the suite fail; the unmodified copy passes |
 | Demo-mode app | `runs/phase2a/AC-14-SMOKE.md` | API smoke: ciphertext only in rows; 1 approval blocked; 2 approvals → summary; +16 min → blocked; tamper caught |

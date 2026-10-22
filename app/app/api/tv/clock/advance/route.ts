@@ -1,9 +1,10 @@
-import { readJson, respond } from '@/app/lib/http'
+import { readJson } from '@/app/lib/http'
+import { withSim } from '@/app/lib/simAuth'
 
 export const dynamic = 'force-dynamic'
 
 export function POST(req: Request) {
-  return respond(async ({ clock }) => {
+  return withSim(req, 'clock.advance', async ({ clock }) => {
     const body = await readJson(req)
     const minutes = body.minutes
     if (typeof minutes !== 'number' || !Number.isFinite(minutes) || minutes < 1 || minutes > 120) {
