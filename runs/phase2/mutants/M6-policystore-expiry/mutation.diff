@@ -1,0 +1,12 @@
+diff -ru --strip-trailing-cr core/src/policyStore.ts runs/phase2/mutants/M6-policystore-expiry/src/policyStore.ts
+--- core/src/policyStore.ts	2026-10-22 14:26:30.674523400 +0700
++++ runs/phase2/mutants/M6-policystore-expiry/src/policyStore.ts	2026-10-22 14:57:05.409007800 +0700
+@@ -70,7 +70,7 @@
+     getFor(query: PolicyQuery): PolicyEntry | null {
+       const found = entries.get(keyOf(query));
+       if (!found) return null;
+-      if (found.expiresAt !== null && query.now >= found.expiresAt) return null;
++      // MUTANT M6: expiresAt ignored
+       return copy(found);
+     },
+ 

@@ -1,0 +1,321 @@
+/* TruthVoice demo page - plain CSS, tuned for a 1280x720 screen recording. All classes prefixed tv-. */
+.tv-root {
+  --tv-ink: #1b1f24;
+  --tv-muted: #5b6470;
+  --tv-line: #dde2e8;
+  --tv-bg: #f3f5f8;
+  --tv-card: #ffffff;
+  --tv-accent: #1f4fd1;
+  --tv-green: #137a3a;
+  --tv-green-bg: #dcf3e4;
+  --tv-red: #b42318;
+  --tv-red-bg: #fde4e1;
+  --tv-amber: #8a5a00;
+  --tv-amber-bg: #fdf0d2;
+  min-height: 100vh;
+  margin: 0;
+  background: var(--tv-bg);
+  color: var(--tv-ink);
+  font-family: system-ui, -apple-system, 'Segoe UI', Roboto, Arial, sans-serif;
+  font-size: 15px;
+  line-height: 1.45;
+}
+
+.tv-main {
+  max-width: 1180px;
+  margin: 0 auto;
+  padding: 16px 20px 64px;
+}
+
+.tv-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  padding: 16px 20px;
+  border-radius: 10px;
+  background: #13213f;
+  color: #fff;
+  margin-bottom: 14px;
+}
+.tv-header h1 {
+  margin: 0;
+  font-size: 28px;
+  letter-spacing: 0.3px;
+}
+.tv-header p {
+  margin: 4px 0 0;
+  color: #c9d3ea;
+  font-size: 15px;
+}
+.tv-badge {
+  flex: none;
+  padding: 6px 12px;
+  border-radius: 999px;
+  background: #ffd166;
+  color: #3a2a00;
+  font-weight: 700;
+  font-size: 13px;
+  white-space: nowrap;
+}
+
+.tv-section {
+  background: var(--tv-card);
+  border: 1px solid var(--tv-line);
+  border-radius: 10px;
+  padding: 14px 18px;
+  margin-bottom: 14px;
+}
+.tv-section h2 {
+  margin: 0 0 10px;
+  font-size: 19px;
+}
+.tv-section h2 .tv-num {
+  display: inline-block;
+  min-width: 26px;
+  color: var(--tv-accent);
+}
+.tv-hint {
+  margin: -4px 0 10px;
+  color: var(--tv-muted);
+  font-size: 13.5px;
+}
+
+.tv-row {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 10px;
+}
+.tv-col {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.tv-root select,
+.tv-root textarea {
+  font: inherit;
+  padding: 6px 8px;
+  border: 1px solid #b9c1cc;
+  border-radius: 6px;
+  background: #fff;
+  color: var(--tv-ink);
+}
+.tv-root textarea {
+  width: 100%;
+  min-height: 64px;
+  resize: vertical;
+  box-sizing: border-box;
+}
+
+.tv-btn {
+  font: inherit;
+  font-weight: 600;
+  padding: 7px 14px;
+  border-radius: 6px;
+  border: 1px solid var(--tv-accent);
+  background: var(--tv-accent);
+  color: #fff;
+  cursor: pointer;
+}
+.tv-btn:hover:not(:disabled) {
+  filter: brightness(1.1);
+}
+.tv-btn:disabled {
+  opacity: 0.45;
+  cursor: not-allowed;
+}
+.tv-btn-ghost {
+  background: #fff;
+  color: var(--tv-accent);
+}
+.tv-btn-warn {
+  background: #fff;
+  border-color: var(--tv-red);
+  color: var(--tv-red);
+}
+
+.tv-table-wrap {
+  max-height: 240px;
+  overflow: auto;
+  border: 1px solid var(--tv-line);
+  border-radius: 6px;
+}
+.tv-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 14px;
+}
+.tv-table th,
+.tv-table td {
+  text-align: left;
+  padding: 5px 10px;
+  border-bottom: 1px solid var(--tv-line);
+  vertical-align: middle;
+}
+.tv-table th {
+  position: sticky;
+  top: 0;
+  background: #eef1f5;
+  font-weight: 600;
+  z-index: 1;
+}
+.tv-mono {
+  font-family: ui-monospace, 'Cascadia Mono', Consolas, 'Courier New', monospace;
+  font-size: 13px;
+  color: #3d4652;
+  word-break: break-all;
+}
+
+.tv-chip {
+  display: inline-block;
+  min-width: 70px;
+  text-align: center;
+  padding: 2px 10px;
+  border-radius: 999px;
+  font-weight: 700;
+  font-size: 13px;
+  letter-spacing: 0.4px;
+}
+.tv-chip-read,
+.tv-chip-active,
+.tv-chip-ok {
+  background: var(--tv-green-bg);
+  color: var(--tv-green);
+}
+.tv-chip-blocked,
+.tv-chip-expired,
+.tv-chip-rejected,
+.tv-chip-revoked,
+.tv-chip-bad {
+  background: var(--tv-red-bg);
+  color: var(--tv-red);
+}
+.tv-chip-pending {
+  background: var(--tv-amber-bg);
+  color: var(--tv-amber);
+}
+
+.tv-result {
+  margin-top: 10px;
+  padding: 10px 12px;
+  border-radius: 6px;
+  font-weight: 600;
+}
+.tv-result-ok {
+  background: var(--tv-green-bg);
+  color: #0d4f27;
+}
+.tv-result-blocked {
+  background: var(--tv-red-bg);
+  color: var(--tv-red);
+}
+.tv-result-none {
+  background: #eef1f5;
+  color: var(--tv-muted);
+  font-weight: 500;
+}
+
+.tv-lease-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+.tv-empty {
+  color: var(--tv-muted);
+  font-style: italic;
+}
+
+.tv-toast {
+  position: fixed;
+  right: 18px;
+  bottom: 18px;
+  max-width: 460px;
+  padding: 10px 14px;
+  border-radius: 8px;
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.18);
+  font-weight: 600;
+  z-index: 10;
+}
+.tv-toast-info {
+  background: #13213f;
+  color: #fff;
+}
+.tv-toast-error {
+  background: var(--tv-red);
+  color: #fff;
+}
+
+.tv-home-link {
+  display: inline-block;
+  margin-bottom: 1rem;
+}
+
+/* S12 Tide mode */
+.tv-header-right {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 6px;
+}
+.tv-badge-tide {
+  background: #9be7b4;
+  color: #0b3d1e;
+}
+.tv-user {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 6px;
+  font-size: 13.5px;
+  color: #dfe6f5;
+}
+.tv-mono-light {
+  font-family: ui-monospace, 'Cascadia Mono', Consolas, 'Courier New', monospace;
+  font-size: 12.5px;
+  color: #c9d3ea;
+}
+.tv-tag {
+  display: inline-block;
+  padding: 1px 8px;
+  border-radius: 999px;
+  background: #e6ebf5;
+  color: #22304d;
+  font-size: 12.5px;
+  font-weight: 600;
+}
+.tv-tag-ok {
+  background: var(--tv-green-bg);
+  color: var(--tv-green);
+}
+.tv-tag-warn {
+  background: var(--tv-amber-bg);
+  color: var(--tv-amber);
+}
+.tv-btn-small {
+  padding: 3px 10px;
+  font-size: 13px;
+}
+.tv-honest {
+  margin: 0 0 14px;
+  padding: 8px 12px;
+  border-left: 4px solid var(--tv-accent);
+  background: #e8eefc;
+  color: #1a2d5a;
+  font-weight: 600;
+  font-size: 14px;
+  border-radius: 4px;
+}
+.tv-section .tv-honest {
+  margin: 0 0 10px;
+}
+.tv-plain-list {
+  margin: 0;
+  padding-left: 18px;
+}
+.tv-chip-signed {
+  background: var(--tv-green-bg);
+  color: var(--tv-green);
+}

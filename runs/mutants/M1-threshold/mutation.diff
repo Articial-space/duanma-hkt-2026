@@ -1,0 +1,12 @@
+diff -ru --strip-trailing-cr core/src/threshold.ts runs/mutants/M1-threshold/src/threshold.ts
+--- core/src/threshold.ts	2026-10-22 13:47:51.426298500 +0700
++++ runs/mutants/M1-threshold/src/threshold.ts	2026-10-22 13:53:44.903574500 +0700
+@@ -6,7 +6,7 @@
+     throw new RangeError(`adminCount must be an integer >= 1, got ${String(adminCount)}`);
+   }
+   // Integer arithmetic (7n / 10) avoids floating point drift of 0.7 * n.
+-  return Math.max(1, Math.floor((7 * adminCount) / 10));
++  return Math.max(1, Math.ceil((7 * adminCount) / 10));
+ }
+ 
+ /** True when the threshold is at least 2, i.e. no single approver can grant alone (A-31). */

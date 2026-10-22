@@ -1,0 +1,5 @@
+* text=auto eol=lf
+*.sh text eol=lf
+app/public/** -text
+app/init/** -text
+*.mp4 binary

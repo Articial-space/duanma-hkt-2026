@@ -1,0 +1,12 @@
+diff -ru --strip-trailing-cr core/src/lease.ts runs/mutants/M3-lease-self-approve/src/lease.ts
+--- core/src/lease.ts	2026-10-22 13:48:06.991387800 +0700
++++ runs/mutants/M3-lease-self-approve/src/lease.ts	2026-10-22 13:53:53.994777800 +0700
+@@ -82,7 +82,7 @@
+ export function approve(req: LeaseRequest, approver: Approver, now: number): LeaseRequest {
+   if (req.status !== "PENDING") throw new LeaseError(`cannot approve a ${req.status} request`);
+   assertNotAgent(req, approver, "approve");
+-  assertNotRequester(req, approver, "approve");
++  // MUTANT: requester check removed from approve
+ 
+   if (req.approvals.includes(approver.id)) return { ...req, approvals: [...req.approvals] };
+ 

@@ -1,0 +1,15 @@
+diff -ru --strip-trailing-cr core/src/service.ts runs/phase2/mutants/M4-service-lease-status/src/service.ts
+--- core/src/service.ts	2026-10-22 14:10:16.924757100 +0700
++++ runs/phase2/mutants/M4-service-lease-status/src/service.ts	2026-10-22 14:56:45.995047000 +0700
+@@ -200,8 +200,9 @@
+       return { ...BLOCKED };
+     };
+ 
+-    const token = await currentToken(recordId, now);
+-    if (!token) return blocked();
++    // MUTANT M4: lease status ignored; always sign + decrypt
++    const latest = latestLease(recordId);
++    const token = latest ? await gateway.signLease(copyLease(latest), now).catch(() => undefined) : undefined;
+ 
+     const lines: string[] = [];
+     for (const row of rows) {

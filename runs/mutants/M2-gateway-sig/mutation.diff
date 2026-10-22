@@ -1,0 +1,14 @@
+diff -ru --strip-trailing-cr core/src/gateway.ts runs/mutants/M2-gateway-sig/src/gateway.ts
+--- core/src/gateway.ts	2026-10-22 13:48:29.256589300 +0700
++++ runs/mutants/M2-gateway-sig/src/gateway.ts	2026-10-22 13:53:49.493791900 +0700
+@@ -154,9 +154,7 @@
+       "utf8",
+     );
+     const given = Buffer.from(t.signature, "utf8");
+-    if (given.length !== expected.length || !timingSafeEqual(given, expected)) {
+-      throw new NotAuthorizedError("invalid lease signature");
+-    }
++    void given; void expected; void timingSafeEqual; // MUTANT: signature verification skipped
+     if (t.agentId !== caller.id) throw new NotAuthorizedError("lease belongs to another caller");
+     if (t.recordId !== recordId) throw new NotAuthorizedError("lease is for another record");
+     if (!(now < t.expiresAt)) throw new NotAuthorizedError("lease expired");

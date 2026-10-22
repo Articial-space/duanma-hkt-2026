@@ -1,0 +1,60 @@
+
+> truthvoice-app@0.1.0 build
+> next build --webpack
+
+▲ Next.js 16.4.2 (webpack)
+✓ Running next.config.js took 54ms
+- Experiments (use with caution):
+  ✓ externalDir
+
+  Creating an optimized production build ...
+✓ Compiled successfully in 5.5s
+  Running TypeScript ...
+  Finished TypeScript in 6.6s ...
+  Collecting page data using 15 workers ...
+  Generating static pages using 15 workers (0/8) ...
+useTideCloakContext called outside TideCloakContextProvider - returning defaults
+useTideCloakContext called outside TideCloakContextProvider - returning defaults
+useTideCloakContext called outside TideCloakContextProvider - returning defaults
+  Generating static pages using 15 workers (2/8) 
+  Generating static pages using 15 workers (4/8) 
+  Generating static pages using 15 workers (6/8) 
+✓ Generating static pages using 15 workers (8/8) in 898ms
+  Finalizing page optimization ...
+  Collecting build traces ...
+
+Route (app)
+┌ ○ /
+├ ○ /_not-found
+├ ƒ /api/protected
+├ ƒ /api/tv/audit
+├ ƒ /api/tv/audit/tamper-demo
+├ ƒ /api/tv/clock/advance
+├ ƒ /api/tv/courses
+├ ƒ /api/tv/feedback
+├ ƒ /api/tv/leases
+├ ƒ /api/tv/leases/approve
+├ ƒ /api/tv/leases/reject
+├ ƒ /api/tv/probe
+├ ƒ /api/tv/rows
+├ ƒ /api/tv/summarise
+├ ƒ /api/tv/tide/admin-policy
+├ ƒ /api/tv/tide/leases
+├ ƒ /api/tv/tide/leases/approve
+├ ƒ /api/tv/tide/policies
+├ ƒ /api/tv/tide/rows
+├ ƒ /api/tv/tide/state
+├ ƒ /api/tv/tide/summary
+├ ƒ /api/tv/tide/whoami
+├ ○ /auth/redirect
+├ ○ /home
+├ ○ /protected
+├ ƒ /tide_dpop/[...path]
+└ ○ /truthvoice
+
+
+ƒ Proxy (Middleware)
+
+○  (Static)   prerendered as static content
+ƒ  (Dynamic)  server-rendered on demand
+

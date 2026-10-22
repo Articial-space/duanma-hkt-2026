@@ -1,0 +1,12 @@
+diff -ru --strip-trailing-cr core/src/service.ts runs/phase2/mutants/M5-service-approver-check/src/service.ts
+--- core/src/service.ts	2026-10-22 14:10:16.924757100 +0700
++++ runs/phase2/mutants/M5-service-approver-check/src/service.ts	2026-10-22 14:56:59.630084700 +0700
+@@ -156,7 +156,7 @@
+ 
+   function approve(input: { leaseId: string; approverId: string }): LeaseRequest {
+     const i = findLease(input.leaseId);
+-    assertApprover(input.approverId);
++    // MUTANT M5: approver-list check removed from approve
+     const now = clock();
+     const before = leases[i];
+     const next = approveLease(before, { id: input.approverId, isAgent: input.approverId === agentId }, now);

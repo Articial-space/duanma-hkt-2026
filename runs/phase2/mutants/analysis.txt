@@ -1,0 +1,96 @@
+== control: total=385 passed=385 failed=0 pending=0 todo=0 files_failed=0/62 success=True
+  by file: {}
+  error kinds: {}
+== M4-service-lease-status: total=385 passed=385 failed=0 pending=0 todo=0 files_failed=0/62 success=True
+  by file: {}
+  error kinds: {}
+== M4b-service-fail-open: total=385 passed=378 failed=7 pending=0 todo=0 files_failed=2/62 success=False
+  FAIL service.test.ts :: S10 runSummariser BLOCKED with no lease at all; audits AGENT_BLOCKED once; nothing decrypted
+       AssertionError: expected { ok: true, …(2) } to deeply equal { Object (ok, reason) }
+  FAIL service.test.ts :: S10 runSummariser BLOCKED before quorum (1 of 2 approvals)
+       AssertionError: expected { ok: true, …(2) } to deeply equal { Object (ok, reason) }
+  FAIL service.test.ts :: S10 runSummariser BLOCKED once the clock reaches expiresAt (READ the instant before)
+       AssertionError: expected { ok: true, …(2) } to deeply equal { Object (ok, reason) }
+  FAIL service.test.ts :: S10 runSummariser an ACTIVE lease for another course does not unlock this course
+       AssertionError: expected { ok: true, …(2) } to deeply equal { Object (ok, reason) }
+  FAIL service.test.ts :: S10 runSummariser uses the most recent lease for the record: a newer PENDING request blocks
+       AssertionError: expected { ok: true, …(2) } to deeply equal { Object (ok, reason) }
+  FAIL service.test.ts :: S10 runSummariser a REJECTED lease blocks
+       AssertionError: expected { ok: true, …(2) } to deeply equal { Object (ok, reason) }
+  FAIL service.test.ts :: S10 runSummariser a NotAuthorizedError from signLease counts as blocked (gateway does not recognise the approvers)
+       AssertionError: expected { ok: true, …(2) } to deeply equal { Object (ok, reason) }
+  by file: {'service.test.ts': 7}
+  error kinds: {'AssertionError': 7}
+== M5-service-approver-check: total=385 passed=383 failed=2 pending=0 todo=0 files_failed=2/62 success=False
+  FAIL service.test.ts :: S10 approve / reject refuses a non-approver (university IT admin) with LeaseError and leaves the lease unchanged
+       AssertionError: expected undefined to be an instance of LeaseError
+  FAIL service.test.ts :: S10 approve / reject refuses an unknown id that is neither agent nor requester (non-approver rule is the service's own)
+       AssertionError: expected undefined to be an instance of LeaseError
+  by file: {'service.test.ts': 2}
+  error kinds: {'AssertionError': 2}
+== M6-policystore-expiry: total=385 passed=377 failed=8 pending=0 todo=0 files_failed=5/62 success=False
+  FAIL policyStore.test.ts :: S12b createPolicyStore — getFor returns null exactly at expiresAt (now === expiresAt)
+       AssertionError: expected { subjectType: 'User', …(7) } to be null
+  FAIL policyStore.test.ts :: S12b createPolicyStore — getFor returns null after expiresAt
+       AssertionError: expected { subjectType: 'User', …(7) } to be null
+  FAIL policyStore.test.ts :: S12b createPolicyStore — put replace semantics replacing an expired lease with a fresh one makes it readable again
+       AssertionError: expected { subjectType: 'User', …(7) } to be null
+  FAIL policyStore.test.ts :: S12b createPolicyStore — put replace semantics replacing a non-expiring entry with an expiring one applies the new expiry
+       AssertionError: expected { subjectType: 'User', …(7) } to be null
+  FAIL policyStore.test.ts :: S12b createPolicyStore — list includes expired entries (list has no clock)
+       AssertionError: expected { subjectType: 'User', …(7) } to be null
+  FAIL policyStore.test.ts :: S12b createPolicyStore — no aliasing (assumption) mutating the object passed to put does not change the store
+       AssertionError: expected { subjectType: 'User', …(7) } to be null
+  FAIL policyStore.test.ts :: S12b createPolicyStore — no aliasing (assumption) mutating an entry returned by getFor does not change the store
+       AssertionError: expected { subjectType: 'User', …(7) } to be null
+  FAIL policyStore.test.ts :: S12b createPolicyStore — no aliasing (assumption) mutating list() results does not change the store
+       AssertionError: expected { subjectType: 'User', …(7) } to be null
+  by file: {'policyStore.test.ts': 8}
+  error kinds: {'AssertionError': 8}
+== M7-summarize-leak: total=385 passed=363 failed=22 pending=0 todo=0 files_failed=9/62 success=False
+  FAIL agent.test.ts :: S6 mockSummarize format and counting renders the exact summary line for the two helper batches
+       AssertionError: expected 'SUMMARY: DEMO1001 — 4 comments; theme…' to be 'SUMMARY: DEMO1001 — 4 comments; theme…' // Object.is equality
+  FAIL agent.test.ts :: S6 mockSummarize format and counting counts comment LINES per theme, not keyword hits (two assessment keywords in one comment count once)
+       AssertionError: expected 'SUMMARY: DEMO9999 — 3 comments; theme…' to be 'SUMMARY: DEMO9999 — 3 comments; theme…' // Object.is equality
+  FAIL agent.test.ts :: S6 mockSummarize format and counting lists at most the top 3 themes; ties are ordered by theme name ascending
+       AssertionError: expected 'SUMMARY: DEMO9999 — 5 comments; theme…' to be 'SUMMARY: DEMO9999 — 5 comments; theme…' // Object.is equality
+  FAIL agent.test.ts :: S6 mockSummarize format and counting orders by count descending before theme name (support 2 beats assessment 1)
+       AssertionError: expected 'SUMMARY: DEMO9999 — 3 comments; theme…' to be 'SUMMARY: DEMO9999 — 3 comments; theme…' // Object.is equality
+  FAIL agent.test.ts :: S6 mockSummarize format and counting a comment that matches several themes counts for each of them
+       AssertionError: expected 'SUMMARY: DEMO9999 — 1 comments; theme…' to be 'SUMMARY: DEMO9999 — 1 comments; theme…' // Object.is equality
+  FAIL agent.test.ts :: S6 mockSummarize format and counting keyword matching is case-insensitive
+       AssertionError: expected 'SUMMARY: DEMO9999 — 2 comments; theme…' to be 'SUMMARY: DEMO9999 — 2 comments; theme…' // Object.is equality
+  FAIL agent.test.ts :: S6 mockSummarize format and counting keyword matching is by substring, including multi-word keywords
+       AssertionError: expected 'SUMMARY: DEMO9999 — 3 comments; theme…' to be 'SUMMARY: DEMO9999 — 3 comments; theme…' // Object.is equality
+  FAIL agent.test.ts :: S6 mockSummarize format and counting prints 'themes: none' when no comment matches any keyword
+       AssertionError: expected 'SUMMARY: DEMO9999 — 2 comments; theme…' to be 'SUMMARY: DEMO9999 — 2 comments; theme…' // Object.is equality
+  FAIL agent.test.ts :: S6 mockSummarize format and counting prints 'themes: none' for a batch with zero comments
+       AssertionError: expected 'SUMMARY: DEMO9999 — 0 comments; theme…' to be 'SUMMARY: DEMO9999 — 0 comments; theme…' // Object.is equality
+  FAIL agent.test.ts :: S6 mockSummarize format and counting lists fewer than three themes when fewer match
+       AssertionError: expected 'SUMMARY: DEMO9999 — 1 comments; theme…' to be 'SUMMARY: DEMO9999 — 1 comments; theme…' // Object.is equality
+  FAIL agent.test.ts :: S6 mockSummarize format and counting only 'Comment:' lines count: keywords in the Course or Semester lines are ignored
+       AssertionError: expected 'SUMMARY: DEMO9999 — 1 comments; theme…' to be 'SUMMARY: DEMO9999 — 1 comments; theme…' // Object.is equality
+  FAIL agent.test.ts :: S6 mockSummarize format and counting is deterministic and tolerates CRLF line endings
+       AssertionError: expected 'SUMMARY: DEMO1001 — 4 comments; theme…' to be 'SUMMARY: DEMO1001 — 4 comments; theme…' // Object.is equality
+  FAIL agent.test.ts :: S6 mockSummarize limits and privacy never contains 4 or more consecutive words of any comment (helper batches)
+       AssertionError: expected 'the assessment rubric was' to be null
+  FAIL agent.test.ts :: S6 mockSummarize limits and privacy never echoes a long comment, whatever its keywords
+       AssertionError: expected 'the assessment rubric for' to be null
+  FAIL agent.test.ts :: S6 mockSummarize on the synthetic fixtures every fixture batch summarises to the S6 contract, within 280 characters and without comment text
+       AssertionError: expected 'SUMMARY: DEMO1001 — 5 comments; theme…' to be 'SUMMARY: DEMO1001 — 5 comments; theme…' // Object.is equality
+  FAIL agent.test.ts :: S6 SummaryAgent.summarizeRecord with a valid token: returns the theme summary and logs AGENT_READ
+       AssertionError: expected 'SUMMARY: DEMO1001 — 4 comments; theme…' to be 'SUMMARY: DEMO1001 — 4 comments; theme…' // Object.is equality
+  FAIL agent.test.ts :: S6 SummaryAgent.summarizeRecord passes the agent's own id and the token to the gateway and summarises what it gets back
+       AssertionError: expected { ok: true, …(1) } to deeply equal { ok: true, …(1) }
+  FAIL demo.test.ts :: AC-3 demo (src/demo.ts via tsx) step 1: batches are encrypted and a ciphertext preview is shown; no feedback text leaks
+       AssertionError: comment line leaked: Comment: The final exam covered topics we never practised: expected '[1] fb-001 (DEMO1001) feedback encryp…' not to contain 'The final exam covered topics we neve…
+  FAIL service.test.ts :: S10 runSummariser after 2 of 3 approvals returns the course summary and its comment count; audits AGENT_READ once
+       AssertionError: expected { ok: true, …(2) } to deeply equal { ok: true, …(2) }
+  FAIL service.test.ts :: S10 runSummariser never returns or logs plaintext comments
+       AssertionError: comment text leaked: expected '{"ok":true,"summary":"SUMMARY: DEMO10…' not to contain 'The assessment rubric was unclear'
+  FAIL service.test.ts :: S10 runSummariser summarises a second course from its own rows (hand-computed SUMMARY_2)
+       AssertionError: expected { ok: true, …(2) } to deeply equal { ok: true, …(2) }
+  FAIL service.test.ts :: S10 runSummariser on seeded data: summary equals mockSummarize of 'Course: <code>', 'Semester: 2026 S2' and the course's comment lines
+       AssertionError: comment text leaked: expected '{"ok":true,"summary":"SUMMARY: DEMO10…' not to contain 'The final exam covered topics we neve…'
+  by file: {'agent.test.ts': 17, 'demo.test.ts': 1, 'service.test.ts': 4}
+  error kinds: {'AssertionError': 22}

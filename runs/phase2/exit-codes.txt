@@ -1,0 +1,4 @@
+npm test exit=0
+typecheck exit=0
+demo exit=0
+app build exit=0 wall=39s

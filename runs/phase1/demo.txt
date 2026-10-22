@@ -1,0 +1,40 @@
+
+> leash-core@0.1.0 demo
+> tsx src/demo.ts
+
+[1] rec-001 encrypted, stored as tide-mock:v1:Ifi9qNG5oNv6mmt...
+[1] rec-002 encrypted, stored as tide-mock:v1:I_xnj-ul4ItAS93...
+[1] rec-003 encrypted, stored as tide-mock:v1:Occ_QqO90zn9jLr...
+[1] The clinic server, the database admin (it-admin) and the AI vendor only hold this ciphertext.
+[1] Approvers enrolled: dr-an, dr-binh, dr-chi -> 2 of 3 must approve.
+[2] agent agent-leash-01 asks for rec-001: BLOCKED (NO_ACTIVE_LEASE)
+[2] Who can read this record right now?
+[2] IT admin (database + server) | reads the stored ciphertext directly, no lease token | BLOCKED
+[2] IT admin with forged lease | replays a lease token with its expiry edited to +365 days | BLOCKED
+[2] AI agent, no lease | asks for the record without any lease token | BLOCKED
+[2] AI agent with lease | presents the signed lease token for this record | BLOCKED
+[2] AI agent, lease on another record | presents the same lease token against another record's ciphertext | BLOCKED
+[3] nurse-01 files request lease-001 for rec-001 (15-minute lease): PENDING
+[3] dr-an approves: PENDING (1 of 2)
+[3] gateway refuses to sign a lease: quorum not reached
+[3] agent asks again for rec-001: BLOCKED (NO_ACTIVE_LEASE)
+[4] dr-binh approves: ACTIVE (2 of 2, approved by dr-an + dr-binh)
+[4] gateway signs the lease token; 15 minutes remaining
+[4] agent reads rec-001 -> SUMMARY: Conditions: Hypertension; Asthma. Medications: Lisinopril 10mg; Salbutamol inhaler.
+[4] agent tries rec-002 with the same lease: BLOCKED (NO_ACTIVE_LEASE)
+[4] Who can read this record right now?
+[4] IT admin (database + server) | reads the stored ciphertext directly, no lease token | BLOCKED
+[4] IT admin with forged lease | replays a lease token with its expiry edited to +365 days | BLOCKED
+[4] AI agent, no lease | asks for the record without any lease token | BLOCKED
+[4] AI agent with lease | presents the signed lease token for this record | READ
+[4] AI agent, lease on another record | presents the same lease token against another record's ciphertext | BLOCKED
+[5] clock moves +16 minutes: lease is EXPIRED (0 ms remaining)
+[5] agent asks for rec-001 with its old token: BLOCKED (NO_ACTIVE_LEASE)
+[5] Who can read this record right now?
+[5] IT admin (database + server) | reads the stored ciphertext directly, no lease token | BLOCKED
+[5] IT admin with forged lease | replays a lease token with its expiry edited to +365 days | BLOCKED
+[5] AI agent, no lease | asks for the record without any lease token | BLOCKED
+[5] AI agent with lease | presents the signed lease token for this record | BLOCKED
+[5] AI agent, lease on another record | presents the same lease token against another record's ciphertext | BLOCKED
+[6] audit log: 12 entries, verify: ok
+[6] entry 1 rewritten in a copy of the log: verify reports broken at seq 1

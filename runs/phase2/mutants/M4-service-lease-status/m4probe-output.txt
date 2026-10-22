@@ -1,0 +1,6 @@
+E:/rmit-hkt-2026/challenges/main-1/impl/core:
+{"lease":"PENDING","result":{"ok":false,"reason":"NO_ACTIVE_LEASE"}}
+exit=0
+E:/rmit-hkt-2026/challenges/main-1/impl/runs/phase2/mutants/M4-service-lease-status:
+{"lease":"PENDING","result":{"ok":true,"summary":"SUMMARY: DEMO1001 — 1 comments; themes: assessment (1)","comments":1}}
+exit=0

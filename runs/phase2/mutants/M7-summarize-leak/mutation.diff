@@ -1,0 +1,11 @@
+diff -ru --strip-trailing-cr core/src/summarize.ts runs/phase2/mutants/M7-summarize-leak/src/summarize.ts
+--- core/src/summarize.ts	2026-10-22 14:36:02.858646700 +0700
++++ runs/phase2/mutants/M7-summarize-leak/src/summarize.ts	2026-10-22 14:57:11.683650900 +0700
+@@ -39,5 +39,6 @@
+     .slice(0, TOP_THEMES);
+   const themes = top.length > 0 ? top.map((t) => `${t.theme} (${t.n})`).join(", ") : "none";
+ 
+-  return `SUMMARY: ${code} — ${comments.length} comments; themes: ${themes}`.slice(0, MAX_SUMMARY);
++  const first = (lines.find((l) => l.startsWith("Comment:")) ?? "").slice("Comment:".length).trim(); // MUTANT M7
++  return `SUMMARY: ${code} — ${comments.length} comments; themes: ${themes}; e.g. ${first}`.slice(0, MAX_SUMMARY);
+ }

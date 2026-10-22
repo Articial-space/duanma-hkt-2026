@@ -1,0 +1,21 @@
+diff -ru --strip-trailing-cr core/src/service.ts runs/phase2/mutants/M4b-service-fail-open/src/service.ts
+--- core/src/service.ts	2026-10-22 14:10:16.924757100 +0700
++++ runs/phase2/mutants/M4b-service-fail-open/src/service.ts	2026-10-22 14:56:52.773307300 +0700
+@@ -201,7 +201,7 @@
+     };
+ 
+     const token = await currentToken(recordId, now);
+-    if (!token) return blocked();
++    void blocked; // MUTANT M4b: fail-open, lease refusal never blocks
+ 
+     const lines: string[] = [];
+     for (const row of rows) {
+@@ -209,7 +209,7 @@
+       try {
+         lines.push(await gateway.decryptRecord(recordId, row.ciphertext, { id: agentId }, now, token));
+       } catch (err) {
+-        if (err instanceof NotAuthorizedError) return blocked();
++        if (err instanceof NotAuthorizedError) continue;
+         throw err;
+       }
+     }
